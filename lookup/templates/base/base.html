@@ -10,6 +10,15 @@
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <title>Demo</title>
+
+    <style>
+        .good{background: #0c0}
+        .moderate{background: #ffff00}
+        .usg{background: #ff9900}
+        .unhealthy{background: #ff0000}
+        .veryunhealthy{background: #990066}
+        .hazardous{background: #660000}
+    </style>
 </head>
 <body>
 
@@ -32,9 +41,10 @@
                     <a class="nav-link" href="{% url 'about' %}">About Me</a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+            <form action="{% url 'home' %}" method="POST" class="form-inline my-2 my-lg-0">
+                {% csrf_token %}
+                <input class="form-control mr-sm-2" name="zipcode" type="search" placeholder="Enter Zip code" aria-label="Search">
+                <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">LookUp</button>
             </form>
         </div>
     </nav>

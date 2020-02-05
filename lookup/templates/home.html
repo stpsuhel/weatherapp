@@ -2,9 +2,21 @@
 
 {% block content %}
 
-    <h1>Hello World!!</h1>
-    <br/>
+    {% if api %}
+        <div class="container mt-4">
+            <div class="jumbotron {{ category_color }}">
+                {% if api == "Error..." %}
+                    <h3 class="display-4">There was an error. Please try again...</h3>
+                    {% else %}
 
-    {{ api }}
+                        <h1 class="display-4">{{ api.0.Category.Name }}</h1>
+                        <p class="lead">{{ api.0.ReportingArea }} Air Quality: {{ api.0.AQI }} </p>
+                        <hr class="my-4">
+                        <p>{{ category_description }}</p>
+
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
 
 {% endblock %}
