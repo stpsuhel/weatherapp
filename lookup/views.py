@@ -5,18 +5,22 @@ def home(request):
     import json
     import requests
 
+    isapiempty = False
     if request.method == 'POST':
         zipcode = request.POST['zipcode']
     else:
         zipcode = "10001"
 
-    api_request = requests.get("http://www.airnowapi.org/aq/observation/zipCode/current/?format=application/json&zipCode=" + zipcode +"&distance=5&API_KEY=98183273-6DAC-412E-A75E-4294C8E54018")
+    api_request = requests.get("http://www.airnowapi.org/aq/observation/zipCode/current/?format=application/json&zipCode=" + zipcode + "&distance=5&API_KEY=98183273-6DAC-412E-A75E-4294C8E54018")
     try:
         api = json.loads(api_request.content)
     except Exception as e:
         api = "Error..."
-
-    if api[0]['Category']['Name'] == 'Good':
+    if api == "Error..." or api == []:
+        category_description = "Null"
+        category_color = "good"
+        isapiempty = True
+    elif api[0]['Category']['Name'] == 'Good':
         category_description = "(0 - 50) Air quality is considered satisfactory, and air pollution poses little or no risk."
         category_color = 'good'
     elif api[0]['Category']['Name'] == 'Moderate':
@@ -38,7 +42,8 @@ def home(request):
     return render(request, 'home.html', {
         'api': api,
         'category_description': category_description,
-        'category_color': category_color
+        'category_color': category_color,
+        'isapiempty': isapiempty
     })
 
 
