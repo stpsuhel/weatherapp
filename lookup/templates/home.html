@@ -7,7 +7,7 @@
             <div class="jumbotron {{ category_color }}">
                 {% if api == "Error..." %}
                     <h3 class="display-4">There was an error. Please try again...</h3>
-                {% elif isapiempty %}
+                {% elif api.0 == "Empty" %}
                     <h3 class="display-4">There was no data for the zip code. Please try another zip code...</h3>
                 {% else %}
 

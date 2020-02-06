@@ -5,7 +5,9 @@ def home(request):
     import json
     import requests
 
-    isapiempty = False
+    category_description = ""
+    category_color = "good"
+
     if request.method == 'POST':
         zipcode = request.POST['zipcode']
     else:
@@ -16,10 +18,14 @@ def home(request):
         api = json.loads(api_request.content)
     except Exception as e:
         api = "Error..."
-    if api == "Error..." or api == []:
-        category_description = "Null"
+
+    if api == "Error...":
+        category_description = ""
+        category_color = "unhealthy"
+    elif not api:
+        category_description = ""
         category_color = "good"
-        isapiempty = True
+        api.append("Empty")
     elif api[0]['Category']['Name'] == 'Good':
         category_description = "(0 - 50) Air quality is considered satisfactory, and air pollution poses little or no risk."
         category_color = 'good'
@@ -42,8 +48,7 @@ def home(request):
     return render(request, 'home.html', {
         'api': api,
         'category_description': category_description,
-        'category_color': category_color,
-        'isapiempty': isapiempty
+        'category_color': category_color
     })
 
 
